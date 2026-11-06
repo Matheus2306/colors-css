@@ -222,6 +222,105 @@ footer {
     color: var(--muted);
 }
 
+    css
+.getting-started {
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.getting-header {
+    margin-bottom: 20px;
+}
+
+.getting-tag {
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.getting-header h2 {
+    font-size: 28px;
+    margin: 10px 0;
+}
+
+.getting-header p,
+.getting-card p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.getting-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.getting-card h3 {
+    font-size: 16px;
+    margin: 20px 0 8px;
+}
+
+.getting-card h3:first-child {
+    margin-top: 0;
+}
+
+.code-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    padding: 14px;
+    border-radius: 8px;
+    margin: 15px 0 25px;
+}
+
+.code-box code {
+    color: #a5b4fc;
+    font-family: monospace;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+}
+
+.copy-install,
+.download-css {
+    background: var(--primary);
+    color: #090d18;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 13px;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.copy-install:hover,
+.download-css:hover {
+    opacity: .85;
+}
+
+@media(max-width: 600px) {
+    .getting-started {
+        padding: 0 12px;
+    }
+
+    .getting-card {
+        padding: 16px;
+    }
+
+    .code-box {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
 @media(max-width: 600px) {
     header { padding: 45px 15px; }
     .container { padding: 20px 12px; }
@@ -235,6 +334,65 @@ footer {
     <h1>Colors <span>CSS</span></h1>
     <p>Biblioteca de cores e utilitários CSS</p>
 </header>
+
+    <section class="getting-started">
+    <div class="getting-header">
+        <span class="getting-tag">PRIMEIROS PASSOS</span>
+        <h2>Começando com Colors CSS</h2>
+        <p>
+            Utilize nossa biblioteca de cores diretamente no seu HTML,
+            sem precisar escrever CSS manualmente.
+        </p>
+    </div>
+
+    <div class="getting-card">
+        <h3>1. Adicione a biblioteca ao seu HTML</h3>
+        <p>
+            Insira o link abaixo dentro da tag
+            <code>&lt;head&gt;</code> do seu documento HTML.
+        </p>
+
+        <div class="code-box">
+            <code id="installCode">
+&lt;link rel="stylesheet" href="https://matheus2306.github.io/colors-css/colors.css"&gt;
+            </code>
+            <button class="copy-install"
+                onclick="copyInstallCode(this)">
+                Copiar código
+            </button>
+        </div>
+
+        <h3>2. Utilize as classes</h3>
+        <p>
+            Depois de adicionar a biblioteca, basta inserir
+            as classes nos elementos HTML.
+        </p>
+
+        <div class="code-box">
+            <code id="exampleCode">
+&lt;div class="bg-blue-500 text-white"&gt;
+    Olá, Colors CSS!
+&lt;/div&gt;
+            </code>
+            <button class="copy-install"
+                onclick="copyExampleCode(this)">
+                Copiar código
+            </button>
+        </div>
+
+        <h3>3. Acesse o arquivo CSS</h3>
+        <p>
+            Consulte e baixe o arquivo da biblioteca:
+        </p>
+
+        <a href="./colors.css"
+           class="download-css"
+           target="_blank">
+            Acessar Colors CSS ↗
+        </a>
+    </div>
+</section>
+
 
 <main class="container">
 
@@ -515,6 +673,37 @@ document.getElementById("colors-css")
 if (document.getElementById("colors-css").sheet) {
     loadColors();
 }
+
+    async function copyText(text, button) {
+    try {
+        await navigator.clipboard.writeText(text);
+
+        const original = button.textContent;
+        button.textContent = "Copiado! ✓";
+
+        setTimeout(() => {
+            button.textContent = original;
+        }, 1500);
+
+    } catch (error) {
+        alert("Não foi possível copiar o código.");
+    }
+}
+
+function copyInstallCode(button) {
+    copyText(
+        '<link rel="stylesheet" href="./colors.css">',
+        button
+    );
+}
+
+function copyExampleCode(button) {
+    copyText(
+        '<div class="bg-blue-500 text-white">\\n    Olá, Colors CSS!\\n</div>',
+        button
+    );
+}
+
 </script>
 
 </body>
