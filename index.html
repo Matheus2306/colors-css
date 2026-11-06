@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colors CSS — Documentação</title>
+
+<link rel="stylesheet" href="./colors.css" id="colors-css">
+
+<style>
+:root {
+    --bg: #090d18;
+    --panel: #111827;
+    --panel2: #172033;
+    --border: #263248;
+    --text: #e5e7eb;
+    --muted: #94a3b8;
+    --primary: #818cf8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, sans-serif;
+}
+
+header {
+    padding: 65px 25px 45px;
+    text-align: center;
+    background:
+        radial-gradient(ellipse at top, #3730a344, transparent 65%),
+        var(--bg);
+    border-bottom: 1px solid var(--border);
+}
+
+header h1 {
+    font-size: clamp(36px, 6vw, 60px);
+    margin: 0 0 12px;
+    letter-spacing: -2px;
+}
+
+header h1 span { color: var(--primary); }
+
+header p {
+    color: var(--muted);
+    margin: 0;
+}
+
+.container {
+    max-width: 1400px;
+    padding: 30px 20px;
+    margin: auto;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.stat strong {
+    display: block;
+    font-size: 28px;
+    color: var(--primary);
+}
+
+.stat small { color: var(--muted); }
+
+.toolbar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+input, select {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 13px 15px;
+    border-radius: 9px;
+    font-size: 14px;
+    outline: none;
+}
+
+input {
+    flex: 1;
+    min-width: 220px;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary);
+}
+
+#results {
+    color: var(--muted);
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.colors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.color-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.swatch {
+    height: 85px;
+    border-bottom: 1px solid var(--border);
+}
+
+.card-content { padding: 16px; }
+
+.card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.card-title h3 {
+    margin: 0;
+    font-size: 17px;
+}
+
+.hex {
+    color: var(--muted);
+    font-size: 12px;
+    font-family: monospace;
+}
+
+.category {
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.category summary {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.category summary span {
+    color: var(--muted);
+    font-weight: 400;
+}
+
+.class-list {
+    margin-top: 12px;
+    display: grid;
+    gap: 7px;
+}
+
+.class-item {
+    background: var(--panel2);
+    border-radius: 7px;
+    padding: 9px;
+    font-size: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 7px;
+}
+
+.class-item code {
+    color: #a5b4fc;
+    overflow-wrap: anywhere;
+}
+
+.class-item small {
+    color: var(--muted);
+    font-family: monospace;
+    overflow-wrap: anywhere;
+}
+
+.copy {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 5px;
+    padding: 3px 7px;
+    cursor: pointer;
+}
+
+.copy:hover {
+    color: white;
+    border-color: var(--primary);
+}
+
+footer {
+    text-align: center;
+    padding: 35px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.empty {
+    text-align: center;
+    padding: 60px;
+    color: var(--muted);
+}
+
+@media(max-width: 600px) {
+    header { padding: 45px 15px; }
+    .container { padding: 20px 12px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Colors <span>CSS</span></h1>
+    <p>Biblioteca de cores e utilitários CSS</p>
+</header>
+
+<main class="container">
+
+    <section class="stats">
+        <div class="stat">
+            <strong id="totalColors">0</strong>
+            <small>Variações de cores</small>
+        </div>
+
+        <div class="stat">
+            <strong id="totalClasses">0</strong>
+            <small>Classes CSS</small>
+        </div>
+
+        <div class="stat">
+            <strong id="totalTypes">5</strong>
+            <small>Categorias de propriedades</small>
+        </div>
+    </section>
+
+    <section class="toolbar">
+        <input
+            type="search"
+            id="search"
+            placeholder="Pesquisar cor, classe ou valor..."
+        >
+
+        <select id="filter">
+            <option value="all">Todas as categorias</option>
+            <option value="bg">Background</option>
+            <option value="text">Texto</option>
+            <option value="border">Bordas</option>
+            <option value="fill">Fill SVG</option>
+            <option value="stroke">Stroke SVG</option>
+        </select>
+    </section>
+
+    <div id="results">Carregando biblioteca...</div>
+
+    <section class="colors-grid" id="colorsGrid"></section>
+
+</main>
+
+<footer>
+    Colors CSS — Biblioteca pública de cores
+    <br>
+    Desenvolvido por Matheus
+</footer>
+
+<script>
+const categories = {
+    bg: {
+        name: "Background",
+        property: "background-color"
+    },
+    text: {
+        name: "Texto",
+        property: "color"
+    },
+    border: {
+        name: "Bordas",
+        property: "border-color"
+    },
+    fill: {
+        name: "Fill SVG",
+        property: "fill"
+    },
+    stroke: {
+        name: "Stroke SVG",
+        property: "stroke"
+    }
+};
+
+const colors = new Map();
+let totalClasses = 0;
+
+const grid = document.getElementById("colorsGrid");
+const search = document.getElementById("search");
+const filter = document.getElementById("filter");
+
+function loadColors() {
+    try {
+        const sheet = document.getElementById("colors-css").sheet;
+
+        if (!sheet) throw new Error("CSS não carregado");
+
+        for (const rule of sheet.cssRules) {
+            if (!(rule instanceof CSSStyleRule)) continue;
+
+            let selector = rule.selectorText
+                .replaceAll("\\/", "/");
+
+            const match = selector.match(
+                /^\.((bg|text|border|fill|stroke)-(.+))$/
+            );
+
+            if (!match) continue;
+
+            const [, className, type, token] = match;
+
+            const colorName = token.split("/")[0];
+            const value = rule.style.getPropertyValue(
+                categories[type].property
+            ).trim();
+
+            if (!value) continue;
+
+            if (!colors.has(colorName)) {
+                colors.set(colorName, {
+                    name: colorName,
+                    types: {},
+                    baseColor: null
+                });
+            }
+
+            const color = colors.get(colorName);
+
+            if (!color.types[type]) {
+                color.types[type] = [];
+            }
+
+            color.types[type].push({
+                className,
+                value
+            });
+
+            if (type === "bg" && !token.includes("/")) {
+                color.baseColor = value;
+            }
+
+            totalClasses++;
+        }
+
+        document.getElementById("totalColors").textContent =
+            colors.size.toLocaleString("pt-BR");
+
+        document.getElementById("totalClasses").textContent =
+            totalClasses.toLocaleString("pt-BR");
+
+        render();
+
+    } catch (error) {
+        document.getElementById("results").textContent =
+            "Não foi possível ler o CSS. Verifique se colors.css está na mesma pasta do index.html.";
+        console.error(error);
+    }
+}
+
+function copyClass(className, button) {
+    navigator.clipboard.writeText(className).then(() => {
+        button.textContent = "Copiado!";
+        setTimeout(() => button.textContent = "Copiar", 1200);
+    });
+}
+
+function render() {
+    const query = search.value.toLowerCase().trim();
+    const selectedType = filter.value;
+
+    grid.innerHTML = "";
+
+    let visible = 0;
+
+    for (const color of colors.values()) {
+        const allItems = Object.entries(color.types);
+
+        const matches = allItems.filter(([type, items]) => {
+            if (selectedType !== "all" && selectedType !== type) {
+                return false;
+            }
+
+            return (
+                color.name.toLowerCase().includes(query) ||
+                items.some(item =>
+                    item.className.toLowerCase().includes(query) ||
+                    item.value.toLowerCase().includes(query)
+                )
+            );
+        });
+
+        if (!matches.length) continue;
+
+        visible++;
+
+        const card = document.createElement("article");
+        card.className = "color-card";
+
+        const swatch = document.createElement("div");
+        swatch.className = "swatch";
+        swatch.style.background = color.baseColor || "#263248";
+
+        const content = document.createElement("div");
+        content.className = "card-content";
+
+        const title = document.createElement("div");
+        title.className = "card-title";
+
+        const heading = document.createElement("h3");
+        heading.textContent = color.name;
+
+        const hex = document.createElement("span");
+        hex.className = "hex";
+        hex.textContent = color.baseColor || "Sem background base";
+
+        title.append(heading, hex);
+        content.append(title);
+
+        for (const [type, items] of matches) {
+            const section = document.createElement("details");
+            section.className = "category";
+
+            const summary = document.createElement("summary");
+
+            const label = document.createElement("strong");
+            label.textContent = categories[type].name;
+
+            const count = document.createElement("span");
+            count.textContent = `${items.length} classes`;
+
+            summary.append(label, count);
+
+            const list = document.createElement("div");
+            list.className = "class-list";
+
+            for (const item of items) {
+                if (
+                    query &&
+                    !color.name.toLowerCase().includes(query) &&
+                    !item.className.toLowerCase().includes(query) &&
+                    !item.value.toLowerCase().includes(query)
+                ) continue;
+
+                const row = document.createElement("div");
+                row.className = "class-item";
+
+                const code = document.createElement("code");
+                code.textContent = item.className;
+
+                const value = document.createElement("small");
+                value.textContent = item.value;
+
+                const button = document.createElement("button");
+                button.className = "copy";
+                button.textContent = "Copiar";
+
+                button.addEventListener("click", () => {
+                    copyClass(item.className, button);
+                });
+
+                row.append(code, value, button);
+                list.append(row);
+            }
+
+            section.append(summary, list);
+            content.append(section);
+        }
+
+        card.append(swatch, content);
+        grid.append(card);
+    }
+
+    document.getElementById("results").textContent =
+        `${visible.toLocaleString("pt-BR")} cores encontradas de ${colors.size.toLocaleString("pt-BR")}.`;
+}
+
+search.addEventListener("input", render);
+filter.addEventListener("change", render);
+
+document.getElementById("colors-css")
+    .addEventListener("load", loadColors);
+
+document.getElementById("colors-css")
+    .addEventListener("error", () => {
+        document.getElementById("results").textContent =
+            "Erro ao carregar colors.css.";
+    });
+
+if (document.getElementById("colors-css").sheet) {
+    loadColors();
+}
+</script>
+
+</body>
+</html>
